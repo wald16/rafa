@@ -66,13 +66,6 @@ export default function Contact() {
                             <li><strong>Email:</strong> contacto@crgroup.com</li>
                             <li><strong>Dirección:</strong> Calle Falsa 123, Ciudad</li>
                         </ul>
-                        <div className="mt-6">
-                            <img
-                                src="/images/contact-illustration.png"
-                                alt="Contact us illustration"
-                                className="rounded-lg shadow-lg hover:scale-105 transition-transform"
-                            />
-                        </div>
                     </div>
                     <div className="md:w-1/2 mt-12 md:mt-0">
                         <form className="bg-gray-900 p-8 rounded-lg shadow-lg hover:shadow-xl transition-all" onSubmit={handleSubmit}>

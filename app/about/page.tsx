@@ -3,23 +3,19 @@ export default function About() {
     return (
         <div>
             {/* Hero Section */}
-            <section className="bg-gradient-to-br from-red-600 to-black py-20 px-6 text-center md:text-left md:flex items-center">
-                <div className="container mx-auto flex flex-col md:flex-row items-center">
-                    <div className="md:w-1/2">
-                        <h1 className="text-5xl md:text-6xl font-extrabold text-white animate-fadeInDown">Sobre Nosotros</h1>
+            <section className="bg-gradient-to-br from-red-600 to-black py-20 px-6 text-center flex items-center">
+                <div className="container mx-auto flex flex-col items-center">
+                    <div className="w-full md:w-3/4">
+                        <h1 className="text-5xl md:text-6xl font-extrabold text-white animate-fadeInDown">
+                            Sobre Nosotros
+                        </h1>
                         <p className="text-gray-300 mt-6 text-lg">
                             Transformamos ideas en realidades. Nuestro compromiso es ayudarte a alcanzar el éxito.
                         </p>
                     </div>
-                    <div className="md:w-1/2 mt-8 md:mt-0">
-                        <img
-                            src="/images/about-illustration.png"
-                            alt="About us"
-                            className="rounded-lg shadow-lg hover:scale-105 transition-transform"
-                        />
-                    </div>
                 </div>
             </section>
+
 
             {/* Mission and Vision Section */}
             <section className="bg-gray-800 py-20 px-6">

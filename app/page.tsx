@@ -15,7 +15,7 @@ export default function Home() {
           <div className="mt-10 flex justify-center flex-wrap gap-4">
             <a
               href="/services"
-              className="bg-white text-red-600 py-3 px-6 rounded-lg hover:bg-gray-200 transition-transform transform hover:scale-110 shadow-md"
+              className="bg-white font-bold text-red-600 py-3 px-6 rounded-lg hover:bg-gray-200 transition-transform transform hover:scale-110 shadow-md"
             >
               Nuestros Servicios
             </a>
