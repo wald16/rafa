@@ -1,35 +1,66 @@
+// Global imports
 import './globals.css';
 
 export const metadata = {
-  title: 'My Company',
-  description: 'Providing great services to our clients',
+  title: 'C&R Advertising Group',
+  description: 'Publicidad y marketing de alto nivel',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  console.log("RootLayout rendered"); // Debugging: Confirm that RootLayout is rendering
+
   return (
-    <html lang="en">
-      <body className="min-h-screen flex flex-col bg-gray-900 text-gray-200">
-        <header className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 shadow">
-          <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-            <a href="/" className="text-2xl font-bold text-blue-400">My Company</a>
-            <nav className="flex space-x-4">
-              <a href="/" className="text-gray-300 hover:text-blue-400 transition-all duration-300">Home</a>
-              <a href="/about" className="text-gray-300 hover:text-blue-400 transition-all duration-300">About Us</a>
-              <a href="/services" className="text-gray-300 hover:text-blue-400 transition-all duration-300">Services</a>
-              <a href="/contact" className="text-gray-300 hover:text-blue-400 transition-all duration-300">Contact Us</a>
+    <html lang="es">
+      <body className="bg-black text-gray-100 font-sans">
+        <header className="bg-gradient-to-r from-black via-gray-800 to-black shadow py-4">
+          <div className="container mx-auto px-6 flex justify-between items-center">
+            <a href="/" className="flex items-center space-x-2">
+              <img src="/images/CR_GROUP.png" alt="Logo C&R" className="h-10" />
+              <span className="text-red-600 text-lg font-bold">C&R Advertising</span>
+            </a>
+            <nav className="flex space-x-6">
+              <a
+                href="/"
+                className="hover:text-red-600 relative group transition-all"
+              >
+                Inicio
+                <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-red-600 transition-all group-hover:w-full"></span>
+              </a>
+              <a
+                href="/about"
+                className="hover:text-red-600 relative group transition-all"
+              >
+                Sobre Nosotros
+                <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-red-600 transition-all group-hover:w-full"></span>
+              </a>
+              <a
+                href="/services"
+                className="hover:text-red-600 relative group transition-all"
+              >
+                Servicios
+                <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-red-600 transition-all group-hover:w-full"></span>
+              </a>
+              <a
+                href="/contact"
+                className="hover:text-red-600 relative group transition-all"
+              >
+                Contacto
+                <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-red-600 transition-all group-hover:w-full"></span>
+              </a>
             </nav>
+
           </div>
         </header>
 
-
-        <main className="flex-grow container mx-auto px-4 py-8 transition-opacity duration-700 ease-in-out">
-          {children}
+        <main className="container mx-auto px-6 py-10">
+          <div className="transition-opacity duration-700 ease-in-out">
+            {children}
+          </div>
         </main>
 
-
-        <footer className="bg-gray-800 text-gray-400 py-4">
-          <div className="container mx-auto text-center">
-            © 2025 My Company. All rights reserved.
+        <footer className="bg-gray-800 py-6">
+          <div className="container mx-auto text-center text-gray-400">
+            <p>&copy; 2025 C&R Advertising Group. Todos los derechos reservados.</p>
           </div>
         </footer>
       </body>
