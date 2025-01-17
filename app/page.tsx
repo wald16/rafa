@@ -3,7 +3,7 @@ export default function Home() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-red-600 to-black py-20 px-6 text-center relative overflow-hidden">
+      <section className="bg-gradient-to-r from-red-600 to-black py-20 text-center relative overflow-hidden">
         <div className="absolute inset-0 bg-opacity-30 bg-pattern-red" />
         <div className="container mx-auto z-10 relative">
           <h1 className="text-6xl font-extrabold text-white animate-fadeInDown">
@@ -30,7 +30,7 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section className="bg-gray-800 py-20 px-6">
+      <section className="bg-gray-800 py-20">
         <div className="container mx-auto text-center">
           <h2 className="text-4xl font-bold text-red-600 mb-10">
             ¿Por qué elegirnos?
@@ -54,7 +54,7 @@ export default function Home() {
       </section>
 
       {/* Call-to-Action Section */}
-      <section className="bg-red-600 py-20 px-6 text-center relative">
+      <section className="bg-red-600 py-20 text-center relative">
         <div className="absolute inset-0 bg-opacity-10 bg-pattern-light" />
         <div className="container mx-auto z-10 relative">
           <h2 className="text-4xl font-bold text-white animate-bounce">

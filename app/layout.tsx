@@ -14,11 +14,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="bg-black text-gray-100 font-sans">
         <header className="bg-gradient-to-r from-black via-gray-800 to-black shadow py-4">
           <div className="mx-auto px-6 flex justify-between items-center">
-            <a href="/" className="flex items-center space-x-2">
-              <img src="/images/CR_GROUP.png" alt="Logo C&R" className="h-10" />
-              <span className="text-red-600 text-lg font-bold">C&R Advertising</span>
-            </a>
+
             <nav className="flex space-x-6">
+              <a href="/" className="logo">
+                <img src="/images/CR_GROUP.png" alt="Logo C&R" className="h-10" />
+                <span className="text-red-600 text-lg font-bold">C&R Advertising</span>
+              </a>
               <a
                 href="/"
                 className="hover:text-red-600 relative group transition-all"
@@ -52,7 +53,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </div>
         </header>
 
-        <main className="mx-auto px-6 py-10">
+        <main className="mx-auto py-10">
           <div className="transition-opacity duration-700 ease-in-out">
             {children}
           </div>
