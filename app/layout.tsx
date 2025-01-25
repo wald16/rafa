@@ -1,5 +1,7 @@
 // Global imports
 import './globals.css';
+import Link from 'next/link';
+
 
 export const metadata = {
   title: 'C&R Advertising Group',
@@ -16,38 +18,38 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="mx-auto px-6 flex justify-between items-center">
 
             <nav className="flex space-x-6">
-              <a href="/" className="logo">
+              <Link href="/" className="logo">
                 <img src="/images/CR_GROUP.png" alt="Logo C&R" className="h-10" />
                 <span className="text-red-600 text-lg font-bold">C&R Advertising</span>
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/"
                 className="hover:text-red-600 relative group transition-all"
               >
                 Inicio
                 <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-red-600 transition-all group-hover:w-full"></span>
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/about"
                 className="hover:text-red-600 relative group transition-all"
               >
                 Sobre Nosotros
                 <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-red-600 transition-all group-hover:w-full"></span>
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/services"
                 className="hover:text-red-600 relative group transition-all"
               >
                 Servicios
                 <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-red-600 transition-all group-hover:w-full"></span>
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/contact"
                 className="hover:text-red-600 relative group transition-all"
               >
                 Contacto
                 <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-red-600 transition-all group-hover:w-full"></span>
-              </a>
+              </Link>
             </nav>
 
           </div>
