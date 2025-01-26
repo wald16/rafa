@@ -5,10 +5,13 @@ import * as THREE from "three";
 import { motion } from "framer-motion";
 
 const FullPageBackground = () => {
-  const mountRef = useRef(null);
+  const mountRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    let renderer, scene, camera, particleSystem;
+    let renderer: THREE.WebGLRenderer;
+    let scene: THREE.Scene;
+    let camera: THREE.PerspectiveCamera;
+    let particleSystem: THREE.Points<THREE.BufferGeometry, THREE.PointsMaterial>;
 
     const init = () => {
       scene = new THREE.Scene();
@@ -44,7 +47,7 @@ const FullPageBackground = () => {
       particlesGeometry.setAttribute("size", new THREE.BufferAttribute(sizes, 1));
 
       const particlesMaterial = new THREE.PointsMaterial({
-        size: 0.20,
+        size: 0.2,
         vertexColors: true,
         transparent: true,
         blending: THREE.AdditiveBlending,
@@ -59,7 +62,7 @@ const FullPageBackground = () => {
       animate();
     };
 
-    const handleMouseMove = (event) => {
+    const handleMouseMove = (event: MouseEvent) => {
       const normalizedX = (event.clientX / window.innerWidth) * 2 - 1;
       const normalizedY = -(event.clientY / window.innerHeight) * 2 + 1;
 
@@ -67,8 +70,8 @@ const FullPageBackground = () => {
         particleSystem.rotation.x = normalizedY * 0.2;
         particleSystem.rotation.y = normalizedX * 0.2;
 
-        const positions = particleSystem.geometry.attributes.position.array;
-        const sizes = particleSystem.geometry.attributes.size.array;
+        const positions = particleSystem.geometry.attributes.position.array as Float32Array;
+        const sizes = particleSystem.geometry.attributes.size.array as Float32Array;
 
         for (let i = 0; i < positions.length; i += 3) {
           const distance = Math.sqrt(
@@ -87,7 +90,7 @@ const FullPageBackground = () => {
         particleSystem.geometry.attributes.position.needsUpdate = true;
         particleSystem.geometry.attributes.size.needsUpdate = true;
 
-        const colors = particleSystem.geometry.attributes.color.array;
+        const colors = particleSystem.geometry.attributes.color.array as Float32Array;
         for (let i = 0; i < colors.length; i += 3) {
           colors[i] = (Math.sin(normalizedX * Math.PI) + 1) / 2; // Red
           colors[i + 1] = (Math.sin(normalizedY * Math.PI) + 1) / 2; // Green
