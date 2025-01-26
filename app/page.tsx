@@ -1,75 +1,223 @@
-// page.tsx (Updated with more playful and visually appealing styles)
+// Full-Page Interactive Background with Rainbow Color Shift and Growing Shape Morphing on Cursor Movement
+"use client";
+import { useEffect, useRef } from "react";
+import * as THREE from "three";
+import { motion } from "framer-motion";
+
+const FullPageBackground = () => {
+  const mountRef = useRef(null);
+
+  useEffect(() => {
+    let renderer, scene, camera, particleSystem;
+
+    const init = () => {
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      renderer = new THREE.WebGLRenderer({ alpha: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+
+      if (mountRef.current) {
+        mountRef.current.innerHTML = ""; // Clear any existing content
+        mountRef.current.appendChild(renderer.domElement);
+      }
+
+      const particleCount = 5000;
+      const particlesGeometry = new THREE.BufferGeometry();
+      const positions = new Float32Array(particleCount * 3);
+      const colors = new Float32Array(particleCount * 3);
+      const sizes = new Float32Array(particleCount);
+
+      for (let i = 0; i < particleCount; i++) {
+        positions[i * 3] = (Math.random() - 0.5) * 20;
+        positions[i * 3 + 1] = (Math.random() - 0.5) * 20;
+        positions[i * 3 + 2] = (Math.random() - 0.5) * 20;
+
+        colors[i * 3] = Math.random(); // Red
+        colors[i * 3 + 1] = Math.random(); // Green
+        colors[i * 3 + 2] = Math.random(); // Blue
+
+        sizes[i] = Math.random() * 0.5 + 0.1; // Random size
+      }
+
+      particlesGeometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+      particlesGeometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+      particlesGeometry.setAttribute("size", new THREE.BufferAttribute(sizes, 1));
+
+      const particlesMaterial = new THREE.PointsMaterial({
+        size: 0.20,
+        vertexColors: true,
+        transparent: true,
+        blending: THREE.AdditiveBlending,
+        sizeAttenuation: true,
+      });
+
+      particleSystem = new THREE.Points(particlesGeometry, particlesMaterial);
+      scene.add(particleSystem);
+
+      camera.position.z = 5;
+
+      animate();
+    };
+
+    const handleMouseMove = (event) => {
+      const normalizedX = (event.clientX / window.innerWidth) * 2 - 1;
+      const normalizedY = -(event.clientY / window.innerHeight) * 2 + 1;
+
+      if (particleSystem) {
+        particleSystem.rotation.x = normalizedY * 0.2;
+        particleSystem.rotation.y = normalizedX * 0.2;
+
+        const positions = particleSystem.geometry.attributes.position.array;
+        const sizes = particleSystem.geometry.attributes.size.array;
+
+        for (let i = 0; i < positions.length; i += 3) {
+          const distance = Math.sqrt(
+            Math.pow(positions[i], 2) +
+            Math.pow(positions[i + 1], 2) +
+            Math.pow(positions[i + 2], 2)
+          );
+
+          positions[i] += Math.sin(normalizedX * Math.PI * distance * 0.1) * 0.05;
+          positions[i + 1] += Math.cos(normalizedY * Math.PI * distance * 0.1) * 0.05;
+          positions[i + 2] += Math.sin((normalizedX + normalizedY) * Math.PI * distance * 0.1) * 0.05;
+
+          sizes[i / 3] = Math.abs(Math.sin(normalizedX * distance * 0.1)) * 2.5 + 0.5; // Increase size
+        }
+
+        particleSystem.geometry.attributes.position.needsUpdate = true;
+        particleSystem.geometry.attributes.size.needsUpdate = true;
+
+        const colors = particleSystem.geometry.attributes.color.array;
+        for (let i = 0; i < colors.length; i += 3) {
+          colors[i] = (Math.sin(normalizedX * Math.PI) + 1) / 2; // Red
+          colors[i + 1] = (Math.sin(normalizedY * Math.PI) + 1) / 2; // Green
+          colors[i + 2] = 1 - colors[i]; // Blue
+        }
+        particleSystem.geometry.attributes.color.needsUpdate = true;
+      }
+    };
+
+    const animate = () => {
+      if (renderer && scene && camera) {
+        renderer.render(scene, camera);
+      }
+      requestAnimationFrame(animate);
+    };
+
+    const handleResize = () => {
+      if (renderer && camera) {
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+      }
+    };
+
+    init();
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("resize", handleResize);
+      if (renderer) {
+        renderer.dispose();
+      }
+    };
+  }, []);
+
+  return <div ref={mountRef} className="fixed inset-0 pointer-events-auto"></div>;
+};
+
+const InfoSection = () => {
+  return (
+    <section className="relative z-10 px-8 py-20">
+      <div className="max-w-4xl mx-auto bg-black bg-opacity-70 rounded-lg p-6 shadow-xl">
+        <h2 className="text-3xl font-bold text-red-500 mb-4">¿Por qué Elegirnos?</h2>
+        <p className="text-gray-300 leading-relaxed mb-4">
+          Ofrecemos soluciones únicas y personalizadas que garantizan una experiencia memorable para tus clientes. Desde diseño interactivo hasta estrategias innovadoras, transformamos ideas en realidades impactantes.
+        </p>
+        <ul className="list-disc list-inside text-gray-300">
+          <li>Experiencia en diseño interactivo</li>
+          <li>Estrategias centradas en el cliente</li>
+          <li>Innovación en cada proyecto</li>
+        </ul>
+      </div>
+    </section>
+  );
+};
+
 export default function Home() {
   return (
-    <div>
+    <div className="font-sans text-white relative overflow-hidden">
+      {/* Full Page Background */}
+      <FullPageBackground />
+
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-red-600 to-black py-20 text-center relative overflow-hidden">
-        <div className="absolute inset-0 bg-opacity-30 bg-pattern-red" />
-        <div className="container mx-auto z-10 relative">
-          <h1 className="text-6xl font-extrabold text-white animate-fadeInDown">
-            Bienvenidos a C&R Advertising Group
-          </h1>
-          <p className="text-gray-300 mt-6 text-lg">
-            Líderes en soluciones publicitarias y marketing digital.
-          </p>
-          <div className="mt-10 flex justify-center flex-wrap gap-4">
+      <section className="relative h-screen flex flex-col justify-center items-center">
+        <div className="relative z-10 text-center">
+          <motion.h1
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1 }}
+            className="text-7xl font-extrabold text-white drop-shadow-md"
+          >
+            Transforma tu Marca
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.5 }}
+            className="mt-4 text-xl font-light"
+          >
+            Soluciones dinámicas y creativas para tus necesidades publicitarias.
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 2 }}
+            className="mt-8 flex justify-center gap-4"
+          >
             <a
               href="/services"
-              className="bg-white font-bold text-red-600 py-3 px-6 rounded-lg hover:bg-gray-200 transition-transform transform hover:scale-110 shadow-md"
+              className="bg-red-500 text-white font-bold py-3 px-8 rounded-lg shadow-md hover:bg-red-600 hover:shadow-lg transition-transform transform hover:scale-110"
             >
-              Nuestros Servicios
+              Descubre Más
             </a>
             <a
               href="/contact"
-              className="border border-white text-white py-3 px-6 rounded-lg hover:bg-red-700 hover:border-red-700 transition-transform transform hover:scale-110"
+              className="bg-gray-800 text-gray-300 font-bold py-3 px-8 rounded-lg hover:bg-gray-700 hover:text-white transition-transform transform hover:scale-110"
             >
               Contáctanos
             </a>
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="bg-gray-800 py-20">
-        <div className="container mx-auto text-center">
-          <h2 className="text-4xl font-bold text-red-600 mb-10">
-            ¿Por qué elegirnos?
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { title: "Innovación", desc: "Soluciones creativas y modernas para destacar tu negocio." },
-              { title: "Calidad", desc: "Garantizamos resultados de excelencia en cada proyecto." },
-              { title: "Compromiso", desc: "Trabajamos de la mano contigo para lograr tus objetivos." },
-            ].map((feature, index) => (
-              <div
-                key={index}
-                className="p-6 bg-gray-900 rounded-lg shadow-lg text-center hover:shadow-xl hover:scale-105 transition-all"
-              >
-                <h3 className="text-2xl font-semibold text-red-500">{feature.title}</h3>
-                <p className="text-gray-300 mt-4">{feature.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Info Section */}
+      <InfoSection />
 
       {/* Call-to-Action Section */}
-      <section className="bg-red-600 py-20 text-center relative">
-        <div className="absolute inset-0 bg-opacity-10 bg-pattern-light" />
-        <div className="container mx-auto z-10 relative">
-          <h2 className="text-4xl font-bold text-white animate-bounce">
-            ¡Lleva tu marca al siguiente nivel!
-          </h2>
-          <p className="text-gray-100 mt-6">
-            Contáctanos y descubre cómo podemos ayudarte a alcanzar tus metas.
-          </p>
-          <a
-            href="/contact"
-            className="mt-10 inline-block bg-white text-red-600 font-bold py-3 px-6 rounded-lg hover:bg-gray-200 transition-transform transform hover:scale-110"
-          >
-            Empieza Ahora
-          </a>
-        </div>
+      <section className="relative py-20 text-center">
+        <motion.h2
+          initial={{ opacity: 0, scale: 0.8 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1 }}
+          className="text-4xl font-bold text-red-500 mb-6"
+        >
+          ¡Lleva tu Marca al Siguiente Nivel!
+        </motion.h2>
+        <p className="text-lg text-gray-300 max-w-xl mx-auto mb-8">
+          Contáctanos para crear estrategias que capturan la atención y generan resultados.
+        </p>
+        <motion.a
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          href="/contact"
+          className="inline-block bg-red-500 text-white font-bold py-4 px-10 rounded-lg shadow-md hover:bg-red-600 hover:shadow-lg transition-transform"
+        >
+          Contáctanos Ahora
+        </motion.a>
       </section>
     </div>
   );
