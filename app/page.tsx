@@ -39,6 +39,7 @@ const FullPageBackground = () => {
         colors[i * 3 + 1] = Math.random(); // Green
         colors[i * 3 + 2] = Math.random(); // Blue
 
+
         sizes[i] = Math.random() * 0.5 + 0.1; // Random size
       }
 
